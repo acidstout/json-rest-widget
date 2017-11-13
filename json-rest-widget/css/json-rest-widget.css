@@ -1,0 +1,24 @@
+.json-feed-post {
+	margin: 0;
+	margin-bottom: 1em;
+	padding: 0 0 0 15px;
+	position:relative;
+	top:-17px;
+}
+
+.json-feed-post:last-child {
+	margin-bottom: 0;
+}
+
+.json-feed-post a {
+	color: #444444;
+	text-decoration: underline;
+}
+
+.json-feed-post a:hover, .json-feed-post a:focus {
+	text-decoration: none;
+}
+
+.json-feed-post a:visited {
+	color: #888888;
+}

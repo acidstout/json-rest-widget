@@ -38,8 +38,8 @@ class json_rest_widget extends WP_Widget {
 		wp_enqueue_style( 'json-feed-rest');
 		
 		if (isset($instance['title']) && !empty($instance['title']) && isset($instance['url']) && !empty($instance['url'])) {
-			$this->title = strip_tags($instance['title']);
-			$this->url = strip_tags($instance['url']);
+			$this->title = sanitize_text_field($instance['title']);
+			$this->url = sanitize_text_field($instance['url']);
 		}
 		
 		echo $before_widget;
@@ -59,8 +59,8 @@ class json_rest_widget extends WP_Widget {
 	 */
 	public function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['url'] = strip_tags($new_instance['url']);
+		$instance['title'] = sanitize_text_field($new_instance['title']);
+		$instance['url'] = sanitize_text_field($new_instance['url']);
 		return $instance;
 	}
 		
@@ -73,8 +73,8 @@ class json_rest_widget extends WP_Widget {
 	 */
 	public function form($instance) {
 		if (isset($instance['title']) && !empty($instance['title']) && isset($instance['url']) && !empty($instance['url'])) {
-			$this->title = strip_tags($instance['title']);
-			$this->url = strip_tags($instance['url']);
+			$this->title = sanitize_text_field($instance['title']);
+			$this->url = sanitize_text_field($instance['url']);
 		}?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>"><?php _e('Title');?></label> 

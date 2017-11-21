@@ -33,9 +33,9 @@ class json_rest_widget extends WP_Widget {
 	 * @see WP_Widget::widget()
 	 */
 	public function widget($args, $instance) {
-		extract( $args );
+		extract($args);
 		
-		wp_enqueue_style( 'json-feed-rest');
+		wp_enqueue_style('json_rest_widget_style');
 		
 		if (isset($instance['title']) && !empty($instance['title']) && isset($instance['url']) && !empty($instance['url'])) {
 			$this->title = sanitize_text_field($instance['title']);
@@ -115,5 +115,5 @@ class json_rest_widget extends WP_Widget {
 	}
 }
 
-add_action('wp_enqueue_scripts', create_function('', 'return wp_register_style("json-feed-rest", plugin_dir_url( __FILE__ ) . "/css/json-rest-widget.css");'));
+add_action('wp_enqueue_scripts', create_function('', 'return wp_register_style("json_rest_widget_style", plugin_dir_url( __FILE__ ) . "/css/json-rest-widget.css");'));
 add_action('widgets_init', create_function('', 'return register_widget("json_rest_widget");'));

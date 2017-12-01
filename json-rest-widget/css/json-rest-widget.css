@@ -3,11 +3,20 @@
 	margin-bottom: 1em;
 	padding: 0 0 0 15px;
 	position:relative;
-	top:-17px;
+	top:-16px;
 }
 
 .json-feed-post:last-child {
 	margin-bottom: 0;
+}
+
+.json-feed-arrow {
+	width: 0;
+	height: 0;
+	line-height:0;
+	border-style: solid;
+	border-color: transparent transparent transparent #444444;
+	border-width: 4px 0px 4px 6px;
 }
 
 .json-feed-post a {

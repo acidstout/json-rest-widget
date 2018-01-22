@@ -90,11 +90,11 @@ class json_rest_widget extends WP_Widget {
 			$this->url = sanitize_text_field($instance['url']);
 		}?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title');?>"><?php _e('Title');?></label> 
+			<label for="<?php echo $this->get_field_id('title');?>"><?php _e('Title');?></label><br/>
 			<input class="widefat" id="<?php echo $this->get_field_id('title');?>" name="<?php echo $this->get_field_name('title');?>" type="text" value="<?php echo $this->title;?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('url');?>"><?php _e('URL');?></label> 
+			<label for="<?php echo $this->get_field_id('url');?>"><?php _e('URL');?></label><br/>
 			<input class="widefat" id="<?php echo $this->get_field_id('url');?>" name="<?php echo $this->get_field_name('url');?>" type="text" value="<?php echo $this->url;?>" />
 		</p><?php
 	}
@@ -120,7 +120,7 @@ class json_rest_widget extends WP_Widget {
 							$shorttitle = substr($shorttitle, 0, 50) . '...';
 						}
 						
-						$links .= '<div class="json-feed-arrow"></div><p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $entry['title'] . '" target="_blank">' . $shorttitle . '</a></p>';
+						$links .= '<p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $entry['title'] . '" target="_blank">' . $shorttitle . '</a></p>';
 					}
 				}
 			}

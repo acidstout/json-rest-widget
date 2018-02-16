@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
  * Plugin Name:   JSON feed via REST Widget
  * Plugin URI:    https://www.rekow.ch
  * Description:   A widget that renders external JSON content as returned by the WordPress REST API.
- * Version:       1.1
+ * Version:       1.2
  * Author:        Nils Rekow
  * Author URI:    https://www.rekow.ch
  * License:
@@ -117,7 +117,7 @@ class json_rest_widget extends WP_Widget {
 						$shorttitle = $entry['title'];
 						
 						if (strlen($shorttitle) > 50) {
-							$shorttitle = substr($shorttitle, 0, 50) . '...';
+							$shorttitle = mb_substr($shorttitle, 0, 50, 'utf-8') . '...';
 						}
 						
 						$links .= '<p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $entry['title'] . '" target="_blank">' . $shorttitle . '</a></p>';

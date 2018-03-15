@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
  */
 class json_rest_widget extends WP_Widget {
 	var $title = 'Feed';
-	var $url   = 'http://www.rekow.ch/wp-json/wp/v2/posts?order=DESC&per_page=3';
+	var $url   = 'http://www.rekow.ch/blog/wp-json/wp/v2/posts?order=desc&per_page=3';
 	
 	
 	/**
@@ -114,13 +114,17 @@ class json_rest_widget extends WP_Widget {
 			if (is_array($arr) && count($arr) > 0) {
 				foreach ($arr as $entry) {
 					if (isset($entry['title']) && isset($entry['link'])) {
-						$shorttitle = $entry['title'];
+						$longtitle = $shorttitle = $entry['title'];
 						
-						if (strlen($shorttitle) > 50) {
-							$shorttitle = mb_substr($shorttitle, 0, 50, 'utf-8') . '...';
+						if (is_array($longtitle) && isset($longtitle['rendered'])) {
+							$longtitle = $shorttitle = $longtitle['rendered'];
 						}
 						
-						$links .= '<p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $entry['title'] . '" target="_blank">' . $shorttitle . '</a></p>';
+						if (strlen($longtitle) > 50) {
+							$shorttitle = mb_substr($longtitle, 0, 50, 'utf-8') . '...';
+						}
+						
+						$links .= '<p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $longtitle . '" target="_blank">' . $shorttitle . '</a></p>';
 					}
 				}
 			}

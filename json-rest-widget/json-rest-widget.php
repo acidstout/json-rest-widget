@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
  * Plugin Name:   JSON feed via REST Widget
  * Plugin URI:    https://www.rekow.ch
  * Description:   A widget that renders external JSON content as returned by the WordPress REST API.
- * Version:       1.2
+ * Version:       1.2.1
  * Author:        Nils Rekow
  * Author URI:    https://www.rekow.ch
  * License:
@@ -130,5 +130,17 @@ class json_rest_widget extends WP_Widget {
 	}
 }
 
-add_action('wp_enqueue_scripts', create_function('', 'return wp_register_style("json_rest_widget_style", plugin_dir_url( __FILE__ ) . "/css/json-rest-widget.css");'));
-add_action('widgets_init', create_function('', 'return register_widget("json_rest_widget");'));
+
+/**
+ * Init plugin
+ */
+function enqueue_json_stylesheet() {
+	return wp_register_style("json_rest_widget_style", plugin_dir_url( __FILE__ ) . "/css/json-rest-widget.css");
+}
+
+function init_json_widget() {
+	return register_widget("json_rest_widget");
+}
+
+add_action('wp_enqueue_scripts', 'enqueue_json_stylesheet');
+add_action('widgets_init', 'init_json_widget');

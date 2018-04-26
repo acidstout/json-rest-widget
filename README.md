@@ -3,7 +3,7 @@ This plugin adds a widget which allows to fetch content of external WordPress in
 
 ## Usage
 Copy this plugin to your WordPress plugins folder, activate it and check the widgets section of your theme.
-Add the widget to your sidebar, set a title and enter the URL to the WordPress REST interface of your external server.
+Add the widget to your sidebar, set a title and enter the URL to the WordPress REST interface of your external server. Optionally set the maximum length applied to each entry returned by your external server.
 
 ## Reference
 See the WordPress REST API at https://developer.wordpress.org/rest-api/reference/ for details.

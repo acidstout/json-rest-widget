@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
  * Plugin Name:   JSON feed via REST Widget
  * Plugin URI:    https://www.rekow.ch
  * Description:   A widget that renders external JSON content as returned by the WordPress REST API.
- * Version:       1.2.1
+ * Version:       1.2.2
  * Author:        Nils Rekow
  * Author URI:    https://www.rekow.ch
  * License:
@@ -25,8 +25,9 @@ if (!defined('ABSPATH')) {
  * -----------------------------------------------------------------------------
  */
 class json_rest_widget extends WP_Widget {
-	var $title = 'Feed';
-	var $url   = 'http://www.rekow.ch/blog/wp-json/wp/v2/posts?order=desc&per_page=3';
+	var $maxlength = 75;
+	var $title     = 'Feed';
+	var $url       = 'http://www.rekow.ch/blog/wp-json/wp/v2/posts?order=desc&per_page=3';
 	
 	
 	/**
@@ -50,9 +51,16 @@ class json_rest_widget extends WP_Widget {
 		
 		wp_enqueue_style('json_rest_widget_style');
 		
-		if (isset($instance['title']) && !empty($instance['title']) && isset($instance['url']) && !empty($instance['url'])) {
-			$this->title = sanitize_text_field($instance['title']);
+		if (isset($instance['url']) && !empty($instance['url'])) {
 			$this->url = sanitize_text_field($instance['url']);
+			
+			if (isset($instance['title']) && !empty($instance['title'])) {
+				$this->title = sanitize_text_field($instance['title']);
+			}
+			
+			if (isset($instance['maxlength']) && is_numeric($instance['maxlength'])) {
+				$this->maxlength = sanitize_text_field($instance['maxlength']);
+			}
 		}
 		
 		echo $before_widget;
@@ -74,6 +82,8 @@ class json_rest_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field($new_instance['title']);
 		$instance['url'] = sanitize_text_field($new_instance['url']);
+		$instance['maxlength'] = sanitize_text_field($new_instance['maxlength']);
+		
 		return $instance;
 	}
 	
@@ -85,17 +95,28 @@ class json_rest_widget extends WP_Widget {
 	 * @see WP_Widget::form()
 	 */
 	public function form($instance) {
-		if (isset($instance['title']) && !empty($instance['title']) && isset($instance['url']) && !empty($instance['url'])) {
-			$this->title = sanitize_text_field($instance['title']);
+		if (isset($instance['url']) && !empty($instance['url'])) {
 			$this->url = sanitize_text_field($instance['url']);
+			
+			if (isset($instance['title']) && !empty($instance['title'])) {
+				$this->title = sanitize_text_field($instance['title']);
+			}
+			
+			if (isset($instance['maxlength']) && is_numeric($instance['maxlength'])) {
+				$this->maxlength = sanitize_text_field($instance['maxlength']);
+			}
 		}?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>"><?php _e('Title');?></label><br/>
-			<input class="widefat" id="<?php echo $this->get_field_id('title');?>" name="<?php echo $this->get_field_name('title');?>" type="text" value="<?php echo $this->title;?>" />
+			<input class="widefat" id="<?php echo $this->get_field_id('title');?>" name="<?php echo $this->get_field_name('title');?>" type="text" value="<?php echo $this->title;?>" placeholder="<?php _e('Feed');?>" />
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('url');?>"><?php _e('URL');?></label><br/>
-			<input class="widefat" id="<?php echo $this->get_field_id('url');?>" name="<?php echo $this->get_field_name('url');?>" type="text" value="<?php echo $this->url;?>" />
+			<input class="widefat" id="<?php echo $this->get_field_id('url');?>" name="<?php echo $this->get_field_name('url');?>" type="text" value="<?php echo $this->url;?>" placeholder="<?php _e('https://example.com/wp-json/wp/v2/...');?>" required />
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('maxlength');?>"><?php _e('Length');?></label><br/>
+			<input class="widefat" id="<?php echo $this->get_field_id('maxlength');?>" name="<?php echo $this->get_field_name('maxlength');?>" type="text" value="<?php echo $this->maxlength;?>" placeholder="<?php _e('Maximum length of each entry');?>"/>
 		</p><?php
 	}
 	
@@ -120,8 +141,8 @@ class json_rest_widget extends WP_Widget {
 							$longtitle = $shorttitle = $longtitle['rendered'];
 						}
 						
-						if (strlen($longtitle) > 50) {
-							$shorttitle = mb_substr($longtitle, 0, 50, 'utf-8') . '...';
+						if (strlen($longtitle) > $this->maxlength) {
+							$shorttitle = mb_substr($longtitle, 0, $this->maxlength, 'utf-8') . '...';
 						}
 						
 						$links .= '<p class="json-feed-post"><a href="' . $entry['link'] . '" title="' . $longtitle . '" target="_blank">' . $shorttitle . '</a></p>';
